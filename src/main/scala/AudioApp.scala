@@ -23,8 +23,8 @@ object AudioApp extends App {
   val randgen = new Random()
 
   1 to Int.MaxValue foreach(_ => {
-    lineIn.read(buffer, 0, buffer.length)
-    lineOut.write(buffer, 0, buffer.length)
+    val bytesRead = lineIn.read(buffer, 0, buffer.length)
+    lineOut.write(buffer, 0, bytesRead)
   })
 
   private def channelsAreAvailable(lines: Array[Line.Info]): Boolean = scanMaxChannels(lines) > 0
