@@ -10,7 +10,8 @@ object AudioConfig {
 
   val format = new AudioFormat(samplingRate, 16, nChannels, true, USE_BIG_ENDIAN)
 
-  val bufferSize: Int = calculateBufferSize(AudioSystemConstants.suggestedOutputLatency, AudioConfig.format)
+  val inBufferSize: Int = calculateBufferSize(AudioSystemConstants.suggestedInputLatency, AudioConfig.format)
+  val outBufferSize: Int = calculateBufferSize(AudioSystemConstants.suggestedOutputLatency, AudioConfig.format)
 
   private def calculateBufferSize(suggestedOutputLatency: Double, format: AudioFormat): Int = {
     val numFrames: Int = (suggestedOutputLatency * format.getFrameRate).toInt
