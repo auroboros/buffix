@@ -1,10 +1,17 @@
+package buffix
+
+import java.nio.ByteBuffer
 import java.util.Random
-import javax.sound.sampled._
+import javax.sound.sampled.{AudioSystem, DataLine, Line}
+
+import buffix.ugen.Sine
 
 /**
   * Created by johnmcgill on 3/3/18.
   */
 object AudioApp extends App {
+  implicit def richBufferToByteArray(richBuffer: RichBuffer): Array[Byte] = richBuffer.buffer
+
   val mixerInfos = AudioSystem.getMixerInfo
 
   mixerInfos.foreach(println)
@@ -19,12 +26,11 @@ object AudioApp extends App {
 
   println("writing noise in a loop")
 
-  val buffer: Array[Byte] = new Array[Byte](AudioConfig.inBufferSize)
-  val randgen = new Random()
+  val sineGen = Sine()
 
   1 to Int.MaxValue foreach(_ => {
-    val bytesRead = lineIn.read(buffer, 0, buffer.length)
-    lineOut.write(buffer, 0, bytesRead)
+    sineGen.nextBuffer()
+    lineOut.write(sineGen.buffer, 0, sineGen.buffer.length)
   })
 
   private def channelsAreAvailable(lines: Array[Line.Info]): Boolean = scanMaxChannels(lines) > 0
