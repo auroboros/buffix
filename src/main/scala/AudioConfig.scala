@@ -5,7 +5,7 @@ import javax.sound.sampled.AudioFormat
   */
 object AudioConfig {
   val samplingRate = 44100 // TODO
-  val nChannels = 2 // TODO
+  val nChannels = 1 // TODO
   val USE_BIG_ENDIAN = false // TODO
 
   val format = new AudioFormat(samplingRate, 16, nChannels, true, USE_BIG_ENDIAN)

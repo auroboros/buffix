@@ -14,18 +14,17 @@ object AudioApp extends App {
   val defaultInputDevice = mixers.find(mixer => channelsAreAvailable(mixer.getTargetLineInfo))
   val defaultOutputDevice = mixers.find(mixer => channelsAreAvailable(mixer.getSourceLineInfo))
 
-  val outline = LineManager.startOutputStream().get
-  val inline = LineManager.startInputStream().get
-//  line.read(bytes, 0, bytes.length)
+  val lineOut = LineManager.startOutputStream().get
+  val lineIn = LineManager.startInputStream().get
 
   println("writing noise in a loop")
 
-  val testBuffer: Array[Byte] = new Array[Byte](AudioConfig.outBufferSize)
+  val buffer: Array[Byte] = new Array[Byte](AudioConfig.inBufferSize)
   val randgen = new Random()
 
   1 to Int.MaxValue foreach(_ => {
-    randgen.nextBytes(testBuffer)
-    outline.write(testBuffer, 0, testBuffer.length)
+    lineIn.read(buffer, 0, buffer.length)
+    lineOut.write(buffer, 0, buffer.length)
   })
 
   private def channelsAreAvailable(lines: Array[Line.Info]): Boolean = scanMaxChannels(lines) > 0
