@@ -28,9 +28,10 @@ object AudioApp extends App {
     println("writing noise in a loop")
 
     val testBuffer: Array[Byte] = new Array[Byte](AudioConfig.bufferSize)
-    new Random().nextBytes(testBuffer)
+    val randgen = new Random()
 
     1 to Int.MaxValue foreach(_ => {
+      randgen.nextBytes(testBuffer)
       outline.write(testBuffer, 0, AudioConfig.bufferSize)
     })
   })
