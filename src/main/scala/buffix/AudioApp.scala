@@ -10,7 +10,7 @@ import buffix.ugen.Sine
   * Created by johnmcgill on 3/3/18.
   */
 object AudioApp extends App {
-  implicit def richBufferToByteArray(richBuffer: RichBuffer): Array[Byte] = richBuffer.buffer
+  implicit def richBufferToByteArray(richBuffer: IoBuffer): Array[Byte] = richBuffer.buffer
 
   val mixerInfos = AudioSystem.getMixerInfo
 
@@ -28,9 +28,12 @@ object AudioApp extends App {
 
   val sineGen = Sine()
 
+  val outBuffer = IoBuffer()
+
   1 to Int.MaxValue foreach(_ => {
     sineGen.nextBuffer()
-    lineOut.write(sineGen.buffer, 0, sineGen.buffer.length)
+    sineGen.signalBuffer.copyToRichBuffer(outBuffer)
+    lineOut.write(outBuffer, 0, outBuffer.length)
   })
 
   private def channelsAreAvailable(lines: Array[Line.Info]): Boolean = scanMaxChannels(lines) > 0

@@ -5,7 +5,7 @@ import java.nio.ByteBuffer
 /**
   * Created by johnmcgill on 3/4/18.
   */
-case class RichBuffer() {
+case class IoBuffer() {
   val MAX_16_BIT = Short.MaxValue
 
   val buffer: Array[Byte] = new Array[Byte](AudioConfig.inBufferSize)

@@ -1,8 +1,6 @@
 package buffix.ugen
 
-import java.nio.{ByteOrder, ByteBuffer}
-
-import buffix.{RichBuffer, AudioConfig}
+import buffix.{AudioConfig, SignalBuffer}
 
 /**
   * Created by johnmcgill on 3/4/18.
@@ -13,11 +11,11 @@ case class Sine(initPitch: Int = 440, initPhi: Double = 0) {
   val w = Phasor.computeW(pitch)
   var phi = initPhi
 
-  val buffer = RichBuffer()
+  val signalBuffer = SignalBuffer(AudioConfig.outBufferSize / 2)
 
   def nextBuffer() = {
-    buffer foreachSample (index => {
-      buffer.putSample(index, Math.sin(phi))
+    signalBuffer foreachSample (index => {
+      signalBuffer.doubleBuffer(index) = Math.sin(phi)
       phi += w
     })
   }
