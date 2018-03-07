@@ -2,7 +2,7 @@ package buffix
 
 import javax.sound.sampled.{AudioSystem, DataLine, Line}
 
-import buffix.ugen.Sine
+import buffix.ugen.{Square, Sawtooth, Sine}
 
 /**
   * Created by johnmcgill on 3/3/18.
@@ -24,7 +24,7 @@ object AudioApp extends App {
 
   println("writing noise in a loop")
 
-  val sineGen = Sine()
+  val sineGen = Sawtooth()
 
   val outBuffer = IoBuffer()
 
