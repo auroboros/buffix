@@ -5,10 +5,7 @@ import buffix.{AudioConfig, SignalBuffer}
 /**
   * Created by johnmcgill on 3/4/18.
   */
-trait PhasorTransformer {
-  val initPitch: Int
-  val initPhi: Double
-  val phiTransform: (Double) => Double
+class PhasorTransformer(val initPitch: Int, val initPhi: Double, val phiTransform: (Double) => Double) {
 
   val pitch = initPitch
   val w = Phasor.computeW(pitch)
@@ -22,4 +19,8 @@ trait PhasorTransformer {
       phi += w
     })
   }
+}
+
+object PhasorTransformer {
+  def apply(phiTransform: (Double) => Double)(initPitch: Int = 440, initPhi: Double = 0) = new PhasorTransformer(initPitch, initPhi, phiTransform)
 }
