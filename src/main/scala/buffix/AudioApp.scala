@@ -1,7 +1,5 @@
 package buffix
 
-import java.nio.ByteBuffer
-import java.util.Random
 import javax.sound.sampled.{AudioSystem, DataLine, Line}
 
 import buffix.ugen.Sine
