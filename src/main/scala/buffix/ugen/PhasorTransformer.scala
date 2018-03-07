@@ -11,8 +11,11 @@ trait PhasorTransformer {
   val initPhi: Double
   def phiTransform: (Double) => Double
 
+  // should SR be passed in? Or at least like this its overridable...
+  val samplingRate = AudioConfig.samplingRate
+
   val pitch = initPitch
-  val w = Phasor.computeW(pitch)
+  val w = Phasor.computeW(pitch, samplingRate)
   var phi = initPhi
 
   val signalBuffer = SignalBuffer(AudioConfig.outBufferSize / 2)
@@ -20,8 +23,7 @@ trait PhasorTransformer {
   def nextBuffer() = {
     signalBuffer foreachSample (index => {
       signalBuffer.doubleBuffer(index) = phiTransform(phi)
-      phi += w
-      phi = phi % (2 * Math.PI)
+      phi = (phi + w) % Phasor.Period
     })
   }
 }

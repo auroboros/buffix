@@ -6,5 +6,8 @@ import buffix.AudioConfig
   * Created by johnmcgill on 3/5/18.
   */
 object Phasor {
-  def computeW(pitch: Int): Double = 2 * Math.PI * pitch / AudioConfig.samplingRate
+  val TwoPi = Math.PI * 2
+  val Period = TwoPi
+
+  def computeW(pitch: Int, samplingRate: Int): Double = Period * pitch / samplingRate
 }
